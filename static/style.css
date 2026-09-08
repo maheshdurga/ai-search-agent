@@ -35,7 +35,7 @@ body {
   padding: 50px 24px;
   background-image: 
     radial-gradient(ellipse 80% 50% at 50% -20%, rgba(14, 165, 233, 0.15), transparent 70%),
-    url('https://img.magnific.com/premium-photo/flowing-3d-waves-black-create-mesmerizing-abstract-pattern-featuring-smooth-curves-light-gradients-against-dark-background-that-evokes-artistry-tranquility-generative-ai_565632-19280.jpg?semt=ais_hybrid&w=740&q=80');
+    url('https://img.magnific.com/premium-photo/green-blue-wavy-lines-black-futuristic-background-3_943281-134403.jpg?semt=ais_hybrid&w=740&q=80');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -111,20 +111,19 @@ body {
 }
 
 .main-title {
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 8px;
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: #38bdf8;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
 }
 
 .subtitle {
-  font-size: 14.5px;
-  color: var(--text-muted);
-  max-width: 580px;
-  margin: 0 auto;
+    font-size: 15px;
+    color: #9198a2;
+    margin: 0 auto;
 }
 
 /* Grid Layout */
@@ -137,19 +136,19 @@ body {
 
 /* Glassmorphism Card Style */
 .card {
-  background: var(--card-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--card-border);
-  border-radius: 20px;
-  padding: 26px 28px;
-  box-shadow: 0 12px 35px -6px rgba(0, 0, 0, 0.45),
+    background: rgb(13 22 38 / 38%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgb(18 161 138 / 58%);
+    border-radius: 20px;
+    padding: 26px 28px;
+    box-shadow: 0 12px 35px -6px rgba(0, 0, 0, 0.45),
               inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
-  border-color: rgba(255, 255, 255, 0.15);
+    border-color: rgb(0 161 255);
 }
 
 .full-width-card {
@@ -193,14 +192,14 @@ body {
 }
 
 .card-title {
-  font-size: 16.5px;
-  font-weight: 600;
-  color: #ffffff;
-  letter-spacing: -0.2px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: -0.2px;
 }
 
 .card-desc {
-  font-size: 12.5px;
+  font-size: 15px;
   color: var(--text-muted);
   margin-top: 2px;
 }
@@ -450,10 +449,10 @@ input[type="password"]:focus,
 }
 
 .result-code {
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-size: 12.5px;
-  line-height: 1.5;
-  color: #38bdf8;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #52c257;
 }
 
 /* Custom Scrollbar */
@@ -476,17 +475,17 @@ input[type="password"]:focus,
 }
 
 .inner-card {
-  background: rgba(7, 13, 23, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 14px;
-  padding: 18px 20px;
+    background: rgba(7, 13, 23, 0.6);
+    border: 1px solid #12a18ac9;
+    border-radius: 14px;
+    padding: 18px 20px;
 }
 
 .inner-card-title {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   color: #cbd5e1;
   margin-bottom: 14px;
@@ -529,13 +528,13 @@ input[type="password"]:focus,
 }
 
 .section-label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #94a3b8;
-  margin-bottom: 6px;
-  font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #94a3b8;
+    margin-bottom: 6px;
+    font-weight: 500;
 }
 
 .section-label svg {
@@ -578,3 +577,6 @@ input[type="password"]:focus,
     font-size: 26px;
   }
 }
+
+/* <------------Responsive-------> */
+
