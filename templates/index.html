@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agent Studio</title>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <div class="agent-sec">
+    <!-- Ambient Background Glows -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <div class="container">
+
+      <!-- Header / Top Bar -->
+      <header class="app-header">
+        <div class="brand-badge">
+          <div class="pulse-dot"></div>
+          <span>Multi-Agent AI Workspace</span>
+        </div>
+        <h1 class="main-title">AI Vision & Search Suite</h1>
+        <p class="subtitle">Search the live web or convert visual designs into clean frontend code instantly.</p>
+      </header>
+      
+      <!-- Top Section: 2 Column Grid -->
+      <div class="top-cards-grid">
+        
+        <!-- Search Agent Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="icon-wrapper cyan">
+              <i data-lucide="globe"></i>
+            </div>
+            <div>
+              <h2 class="card-title">Web Search Agent</h2>
+              <p class="card-desc">Ask queries with real-time web context</p>
+            </div>
+          </div>
+          
+          <form action="/ask" method="POST" class="form-container">
+            <div class="input-group">
+              <div class="input-wrapper">
+                <i data-lucide="sparkles" class="input-icon"></i>
+                <input type="text" name="question" placeholder="e.g., best restaurants in Rajahmundry..." required autocomplete="off">
+              </div>
+              <button type="submit" class="btn btn-cyan">
+                <i data-lucide="search"></i>
+                <span>Ask</span>
+              </button>
+            </div>
+          </form>
+
+          <div class="terminal-box">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span class="terminal-tag">Response Preview</span>
+            </div>
+            <div class="result-body">
+              {% if answer %}
+                <div class="result-text">{{ answer }}</div>
+              {% else %}
+                <div class="result-text placeholder-text">
+                  A curated summary and live web results for your query will appear here in real time.
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Image to Code Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="icon-wrapper blue">
+              <i data-lucide="code-2"></i>
+            </div>
+            <div>
+              <h2 class="card-title">Image to Code</h2>
+              <p class="card-desc">Convert screenshots and mockups into UI</p>
+            </div>
+          </div>
+
+          <form action="/image-to-code" method="POST" enctype="multipart/form-data" class="form-container">
+            <div class="file-upload-bar">
+              <label for="file-upload" class="custom-file-btn">
+                <i data-lucide="upload-cloud"></i>
+                <span>Choose Image</span>
+              </label>
+              <input id="file-upload" type="file" name="image" accept="image/*" class="hidden-file-input" required>
+              
+              <div class="file-details">
+                <span class="file-name-display" id="image-file-name">No image chosen</span>
+                <span class="file-hint">PNG, JPG, WebP supported</span>
+              </div>
+
+              <button type="submit" class="btn btn-blue">
+                <i data-lucide="cpu"></i>
+                <span>Generate</span>
+              </button>
+            </div>
+          </form>
+
+          <div class="terminal-box">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span class="terminal-tag">Generated Code</span>
+            </div>
+            <div class="result-body">
+              {% if code %}
+                <pre class="result-code"><code>{{ code }}</code></pre>
+              {% else %}
+                <pre class="result-code"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;!-- Your generated UI code will render here --&gt;
+&lt;/html&gt;</code></pre>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Section: Full Width Design to Code Card -->
+      <div class="card full-width-card">
+        <div class="card-header">
+          <div class="icon-wrapper violet">
+            <i data-lucide="layers"></i>
+          </div>
+          <div>
+            <h2 class="card-title">Design to HTML / CSS / JS Engine</h2>
+            <p class="card-desc">Directly import from PSD files or Figma frames</p>
+          </div>
+        </div>
+
+        <div class="bottom-form-grid">
+          <!-- File / PSD Upload Box -->
+          <div class="inner-card">
+            <div class="inner-card-title">
+              <i data-lucide="file-code"></i>
+              <span>Upload Figma / PSD Export</span>
+            </div>
+            <form action="/image-to-code" method="POST" enctype="multipart/form-data" class="upload-inline-form">
+              <label for="psd-upload" class="custom-file-btn secondary">
+                <i data-lucide="folder-open"></i>
+                <span>Browse File</span>
+              </label>
+              <input id="psd-upload" type="file" name="image" accept="image/*,.psd" class="hidden-file-input" required>
+              <span class="file-status" id="psd-file-name">No file selected</span>
+              <button type="submit" class="btn btn-outline">
+                <i data-lucide="sparkles"></i> Convert
+              </button>
+            </form>
+          </div>
+
+          <!-- Figma URL & Token Box -->
+          <div class="inner-card">
+            <div class="inner-card-title">
+              <i data-lucide="figma"></i>
+              <span>Import Live Figma Frame</span>
+            </div>
+            <form action="/figma-to-code" method="POST" class="figma-inline-form">
+              <div class="field-group">
+                <label class="section-label">Figma Frame URL</label>
+                <input type="text" name="figma_url" placeholder="https://www.figma.com/file/..." required>
+              </div>
+              <div class="field-group">
+                <label class="section-label">Personal Access Token</label>
+                <input type="password" name="figma_token" placeholder="figd_..." required>
+              </div>
+              <button type="submit" class="btn btn-outline">
+                <i data-lucide="arrow-right"></i> Generate
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {% if code %}
+        <!-- Code Output & Refinement Area -->
+        <div class="refinement-section">
+          <div class="terminal-box" style="margin-top: 20px;">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span class="terminal-tag">Generated Code Result</span>
+            </div>
+            <div class="result-body">
+              <pre class="result-code"><code>{{ code }}</code></pre>
+            </div>
+          </div>
+
+          <form action="/refine-code" method="POST" class="refine-form">
+            <input type="hidden" name="previous_code" value="{{ code }}">
+            <label class="section-label">
+              <i data-lucide="message-square-diff"></i>
+              <span>Want changes? Describe your adjustments below</span>
+            </label>
+            <textarea class="custom-textarea" name="feedback" placeholder="e.g. Change the primary button to an emerald green gradient, increase heading sizes, and make the layout responsive." required></textarea>
+            <div class="refine-actions">
+              <button type="submit" class="btn btn-cyan">
+                <i data-lucide="refresh-cw"></i> Refine & Update Code
+              </button>
+            </div>
+          </form>
+        </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Initialize Lucide Icons & Dynamic Filename Listeners -->
+  <script>
+    lucide.createIcons();
+
+    // File name update handler
+    function bindFileInput(inputId, displayId, defaultText) {
+      const input = document.getElementById(inputId);
+      const display = document.getElementById(displayId);
+      if (input && display) {
+        input.addEventListener('change', function(e) {
+          if (e.target.files && e.target.files.length > 0) {
+            display.textContent = e.target.files[0].name;
+            display.classList.add('selected');
+          } else {
+            display.textContent = defaultText;
+            display.classList.remove('selected');
+          }
+        });
+      }
+    }
+
+    bindFileInput('file-upload', 'image-file-name', 'No image chosen');
+    bindFileInput('psd-upload', 'psd-file-name', 'No file selected');
+  </script>
+</body>
+</html>
