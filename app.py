@@ -1,20 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request
 import os
 from agent import run_agent, image_to_code, psd_to_png, figma_to_png, refine_code
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-change-this")
 
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route("/", methods=["GET"])
 def home():
-    # .pop() reads the value ONCE then deletes it from the session -
-    # this is what makes a plain refresh show a clean/empty page afterward
-    answer = session.pop("answer", None)
-    code = session.pop("code", None)
-    return render_template("index.html", answer=answer, code=code)
+    return render_template("index.html", answer=None, code=None)
 
 @app.route("/ask", methods=["POST"])
 def ask():
@@ -23,8 +18,7 @@ def ask():
         answer = run_agent(question)
     except Exception as e:
         answer = f"Error occurred: {str(e)}"
-    session["answer"] = answer
-    return redirect(url_for("home"))
+    return render_template("index.html", answer=answer, code=None)
 
 @app.route("/image-to-code", methods=["POST"])
 def image_to_code_route():
@@ -34,6 +28,7 @@ def image_to_code_route():
             path = os.path.join(UPLOAD_FOLDER, file.filename)
             file.save(path)
 
+            # If it's a PSD, convert it to PNG first
             if file.filename.lower().endswith(".psd"):
                 path = psd_to_png(path)
 
@@ -42,8 +37,7 @@ def image_to_code_route():
             code = "No file was uploaded. Please choose an image or PSD file."
     except Exception as e:
         code = f"Error occurred: {str(e)}"
-    session["code"] = code
-    return redirect(url_for("home"))
+    return render_template("index.html", answer=None, code=code)
 
 @app.route("/figma-to-code", methods=["POST"])
 def figma_to_code_route():
@@ -54,8 +48,7 @@ def figma_to_code_route():
         code = image_to_code(png_path)
     except Exception as e:
         code = f"Error occurred: {str(e)}"
-    session["code"] = code
-    return redirect(url_for("home"))
+    return render_template("index.html", answer=None, code=code)
 
 @app.route("/refine-code", methods=["POST"])
 def refine_code_route():
@@ -65,8 +58,7 @@ def refine_code_route():
         code = refine_code(previous_code, feedback)
     except Exception as e:
         code = f"Error occurred: {str(e)}\n\n{previous_code}"
-    session["code"] = code
-    return redirect(url_for("home"))
+    return render_template("index.html", answer=None, code=code)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
