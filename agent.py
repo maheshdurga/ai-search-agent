@@ -132,7 +132,7 @@ def image_to_code(image_path):
 
     response = client.chat.completions.create(
         model="qwen/qwen3.6-27b",
-        max_tokens=20000,
+        max_tokens=16384,
         messages=[
             {
                 "role": "user",
@@ -222,7 +222,7 @@ def refine_code(previous_code, feedback):
     """Takes existing generated code + user feedback, and returns an updated version."""
     response = client.chat.completions.create(
         model="openai/gpt-oss-120b",
-        max_tokens=20000,
+        max_tokens=16384,
         messages=[
             {
                 "role": "system",

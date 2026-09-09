@@ -2,9 +2,8 @@
 
 :root {
   --bg-dark: #060b14;
-  --card-bg: rgba(13, 22, 38, 0.65);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --card-hover-border: rgba(56, 189, 248, 0.35);
+  --card-bg: rgba(13, 22, 38, 0.45);
+  --card-border: rgba(18, 161, 138, 0.4);
   --input-bg: rgba(7, 13, 23, 0.85);
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
@@ -35,7 +34,7 @@ body {
   padding: 50px 24px;
   background-image: 
     radial-gradient(ellipse 80% 50% at 50% -20%, rgba(14, 165, 233, 0.15), transparent 70%),
-    url('https://img.magnific.com/premium-photo/green-blue-wavy-lines-black-futuristic-background-3_943281-134403.jpg?semt=ais_hybrid&w=740&q=80');
+    url('https://img.magnific.com/free-vector/green-futuristic-waves-background-with-computer-code-technology_53876-119573.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -111,44 +110,42 @@ body {
 }
 
 .main-title {
-    font-size: 38px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    background: #38bdf8;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 8px;
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  background: #38bdf8;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
 }
 
 .subtitle {
-    font-size: 15px;
-    color: #9198a2;
-    margin: 0 auto;
+  font-size: 15px;
+  color: #9198a2;
+  margin: 0 auto;
 }
 
-/* Grid Layout */
-.top-cards-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
+/* Section Layout */
+.top-cards-section {
   margin-bottom: 24px;
 }
 
 /* Glassmorphism Card Style */
 .card {
-    background: rgb(13 22 38 / 38%);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgb(18 161 138 / 58%);
-    border-radius: 20px;
-    padding: 26px 28px;
-    box-shadow: 0 12px 35px -6px rgba(0, 0, 0, 0.45),
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 26px 28px;
+  box-shadow: 0 12px 35px -6px rgba(0, 0, 0, 0.45),
               inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 24px;
 }
 
 .card:hover {
-    border-color: rgb(0 161 255);
+  border-color:#31813c;
 }
 
 .full-width-card {
@@ -179,12 +176,6 @@ body {
   border: 1px solid rgba(14, 165, 233, 0.3);
 }
 
-.icon-wrapper.blue {
-  background: rgba(59, 130, 246, 0.15);
-  color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.3);
-}
-
 .icon-wrapper.violet {
   background: rgba(139, 92, 246, 0.15);
   color: #a78bfa;
@@ -192,10 +183,10 @@ body {
 }
 
 .card-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #ffffff;
-    letter-spacing: -0.2px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.2px;
 }
 
 .card-desc {
@@ -263,7 +254,7 @@ input[type="password"]:focus,
   background: rgba(10, 18, 32, 0.95);
 }
 
-/* Modern Glow Buttons */
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -296,17 +287,6 @@ input[type="password"]:focus,
   transform: translateY(-1px);
 }
 
-.btn-blue {
-  background: var(--blue-gradient);
-  color: #ffffff;
-  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-}
-
-.btn-blue:hover {
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
-  transform: translateY(-1px);
-}
-
 .btn-outline {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -320,19 +300,9 @@ input[type="password"]:focus,
   transform: translateY(-1px);
 }
 
-/* File Upload Controls */
+/* Hidden File Upload */
 .hidden-file-input {
   display: none;
-}
-
-.file-upload-bar {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 6px;
-  background: rgba(7, 13, 23, 0.6);
-  border: 1px dashed rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
 }
 
 .custom-file-btn {
@@ -351,11 +321,6 @@ input[type="password"]:focus,
   white-space: nowrap;
 }
 
-.custom-file-btn svg {
-  width: 15px;
-  height: 15px;
-}
-
 .custom-file-btn:hover {
   background: rgba(255, 255, 255, 0.16);
   border-color: rgba(255, 255, 255, 0.25);
@@ -366,33 +331,7 @@ input[type="password"]:focus,
   font-size: 12.5px;
 }
 
-.file-details {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow: hidden;
-}
-
-.file-name-display {
-  font-size: 12.5px;
-  font-weight: 500;
-  color: var(--text-muted);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.file-name-display.selected {
-  color: #38bdf8;
-  font-weight: 600;
-}
-
-.file-hint {
-  font-size: 11px;
-  color: #64748b;
-}
-
-/* Terminal / Code Result Box */
+/* Terminal Box */
 .terminal-box {
   background: #060b13;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -407,6 +346,12 @@ input[type="password"]:focus,
   padding: 8px 14px;
   background: rgba(255, 255, 255, 0.03);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.terminal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .terminal-dots {
@@ -449,10 +394,10 @@ input[type="password"]:focus,
 }
 
 .result-code {
-    font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    font-size: 12.5px;
-    line-height: 1.5;
-    color: #52c257;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #52c257;
 }
 
 /* Custom Scrollbar */
@@ -463,11 +408,8 @@ input[type="password"]:focus,
   background: rgba(255, 255, 255, 0.15);
   border-radius: 4px;
 }
-.result-body::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
-}
 
-/* Bottom Card Grid */
+/* Bottom Grid */
 .bottom-form-grid {
   display: grid;
   grid-template-columns: 1fr 1.6fr;
@@ -475,10 +417,10 @@ input[type="password"]:focus,
 }
 
 .inner-card {
-    background: rgba(7, 13, 23, 0.6);
-    border: 1px solid #12a18ac9;
-    border-radius: 14px;
-    padding: 18px 20px;
+  background: rgba(7, 13, 23, 0.6);
+  border: 1px solid rgba(18, 161, 138, 0.55);
+  border-radius: 14px;
+  padding: 18px 20px;
 }
 
 .inner-card-title {
@@ -512,11 +454,6 @@ input[type="password"]:focus,
   white-space: nowrap;
 }
 
-.file-status.selected {
-  color: #38bdf8;
-  font-weight: 500;
-}
-
 .figma-inline-form {
   display: flex;
   align-items: flex-end;
@@ -528,21 +465,16 @@ input[type="password"]:focus,
 }
 
 .section-label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-    color: #94a3b8;
-    margin-bottom: 6px;
-    font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #94a3b8;
+  margin-bottom: 6px;
+  font-weight: 500;
 }
 
-.section-label svg {
-  width: 14px;
-  height: 14px;
-}
-
-/* Code Refinement Section */
+/* Refinement Section */
 .refinement-section {
   display: flex;
   flex-direction: column;
@@ -550,7 +482,7 @@ input[type="password"]:focus,
 }
 
 .custom-textarea {
-  min-height: 90px;
+  min-height: 80px;
   resize: vertical;
   line-height: 1.5;
 }
@@ -561,9 +493,96 @@ input[type="password"]:focus,
   margin-top: 8px;
 }
 
+/* ---------------- Preview Button ---------------- */
+.btn-preview {
+  background: transparent;
+  border: 1px solid #38bdf8;
+  color: #38bdf8;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-preview svg {
+  width: 14px;
+  height: 14px;
+}
+
+.btn-preview:hover {
+  background: #38bdf8;
+  color: #04101e;
+}
+
+/* ---------------- Preview Modal ---------------- */
+.preview-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.preview-modal-overlay.open {
+  display: flex;
+}
+
+.preview-modal-box {
+  background: #ffffff;
+  width: 100%;
+  max-width: 1100px;
+  height: 85vh;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+}
+
+.preview-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: #0d1120;
+  color: #f8fafc;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.preview-modal-header button {
+  background: var(--cyan-gradient);
+  color: #04101e;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 12.5px;
+}
+
+.preview-modal-header button:hover {
+  filter: brightness(1.1);
+}
+
+.preview-modal-box iframe {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: #ffffff;
+}
+
 /* Responsive */
 @media (max-width: 992px) {
-  .top-cards-grid,
   .bottom-form-grid {
     grid-template-columns: 1fr;
   }
@@ -576,7 +595,8 @@ input[type="password"]:focus,
   .main-title {
     font-size: 26px;
   }
+
+  .preview-modal-box {
+    height: 80vh;
+  }
 }
-
-/* <------------Responsive-------> */
-
