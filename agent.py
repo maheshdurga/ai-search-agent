@@ -1,22 +1,23 @@
 import os
 import json
-import base64
 import re
 import requests
-from io import BytesIO
 from PIL import Image
 from psd_tools import PSDImage
 from dotenv import load_dotenv
 from groq import Groq, BadRequestError
 from serpapi import GoogleSearch
+import google.generativeai as genai
 
 load_dotenv()
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 SERPAPI_KEY = os.environ.get("SERPAPI_KEY")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
 client = Groq(api_key=GROQ_API_KEY)
+genai.configure(api_key=GEMINI_API_KEY)
 
-# ---------------- SEARCH AGENT ----------------
+# ---------------- SEARCH AGENT (still on Groq) ----------------
 
 def search_web(query):
     params = {"q": query, "api_key": SERPAPI_KEY, "num": 5}
@@ -100,70 +101,53 @@ def run_agent(user_question):
     return "Sorry, I couldn't complete this after several attempts. Please try rephrasing your question."
 
 
-# ---------------- IMAGE-TO-CODE FEATURE ----------------
+# ---------------- IMAGE-TO-CODE FEATURE (now on Gemini) ----------------
 
-def encode_image(image_path):
-    """Reads a local image file, resizes it if too large, and converts it to base64.
-    Always outputs as JPEG to keep file size manageable for the API."""
+def prepare_image(image_path):
+    """Opens a local image file and resizes it if too large. Returns a PIL Image object."""
     img = Image.open(image_path)
 
-    # Convert to RGB if needed (handles PNGs with transparency, PSD exports, etc.)
     if img.mode != "RGB":
         img = img.convert("RGB")
 
-    # Resize if too large - cap longest side at 1568px (plenty for the AI to read clearly)
     max_dimension = 1568
     if max(img.size) > max_dimension:
         ratio = max_dimension / max(img.size)
         new_size = (int(img.width * ratio), int(img.height * ratio))
         img = img.resize(new_size, Image.LANCZOS)
 
-    buffer = BytesIO()
-    img.save(buffer, format="JPEG", quality=85)
-    return base64.b64encode(buffer.getvalue()).decode("utf-8")
+    return img
 
 def image_to_code(image_path):
-    """Sends an image to a vision-capable Groq model and asks it to recreate it as HTML/CSS/JS."""
+    """Sends an image to Gemini's vision model and asks it to recreate it as HTML/CSS/JS."""
     if not os.path.exists(image_path):
         return "Error: file not found. Check the path and try again."
 
-    base64_image = encode_image(image_path)
-    mime_type = "image/jpeg"  # always JPEG now, since encode_image() converts to it
+    try:
+        img = prepare_image(image_path)
 
-    response = client.chat.completions.create(
-        model="qwen/qwen3.6-27b",
-        max_tokens=16384,
-        messages=[
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": (
-                            "Look at this UI design image and recreate it as a single, complete HTML file "
-                            "with embedded CSS and JavaScript. Match the layout, colors, spacing, fonts, and "
-                            "text as closely as possible. Add simple hover/interaction effects where it makes "
-                            "sense. Output ONLY the raw HTML code, no explanation, no markdown code fences."
-                        )
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:{mime_type};base64,{base64_image}"
-                        }
-                    }
-                ]
-            }
-        ]
-    )
+        model = genai.GenerativeModel("gemini-3.6-flash")
 
-    code = response.choices[0].message.content
-    finish_reason = response.choices[0].finish_reason
+        prompt = (
+            "Look at this UI design image and recreate it as a single, complete HTML file "
+            "with embedded CSS and JavaScript. Match the layout, colors, spacing, fonts, and "
+            "text as closely as possible. Add simple hover/interaction effects where it makes "
+            "sense. Output ONLY the raw HTML code, no explanation, no markdown code fences."
+        )
 
-    if finish_reason == "length":
-        code += "\n\n<!-- WARNING: Output was cut off because it exceeded the token limit. -->"
+        response = model.generate_content([prompt, img])
+        code = response.text
 
-    return code
+        # Strip markdown code fences if Gemini adds them despite instructions
+        code = code.strip()
+        if code.startswith("```"):
+            code = re.sub(r"^```[a-zA-Z]*\n", "", code)
+            code = re.sub(r"\n```$", "", code)
+
+        return code
+
+    except Exception as e:
+        return f"Error occurred: {str(e)}"
 
 
 # ---------------- PSD SUPPORT ----------------
@@ -216,13 +200,13 @@ def figma_to_png(figma_url, figma_token, save_dir="uploads"):
     return png_path
 
 
-# ---------------- REFINE CODE (FEEDBACK LOOP) ----------------
+# ---------------- REFINE CODE (FEEDBACK LOOP - still on Groq, text-only) ----------------
 
 def refine_code(previous_code, feedback):
     """Takes existing generated code + user feedback, and returns an updated version."""
     response = client.chat.completions.create(
-        model="openai/gpt-oss-120b",
-        max_tokens=16384,
+        model="openai/gpt-oss-20b",   # smaller model, generally higher free-tier throughput
+        max_tokens=4000,               # reduced to stay safely under the 8000 TPM cap
         messages=[
             {
                 "role": "system",
@@ -230,6 +214,7 @@ def refine_code(previous_code, feedback):
                     "You are editing an existing HTML file (with embedded CSS and JS). "
                     "The user will give you the current code and a change they want. "
                     "Apply ONLY the requested change, keep everything else the same. "
+                    "Be concise - avoid unnecessary comments or whitespace. "
                     "Output ONLY the full updated HTML code, no explanation, no markdown code fences."
                 )
             },
